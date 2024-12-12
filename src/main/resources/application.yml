@@ -1,0 +1,36 @@
+
+
+spring:
+  application:
+    name: orderManagement
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/order_db
+    username: root
+    password: sql_pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+    topic:
+      order: order-topic
+  redis:
+    host: localhost
+    port: 6379
+  resilience4j:
+    retry:
+      instances:
+        orderServiceRetry:
+          maxAttempts: 5
+          waitDuration: 100ms
+    circuitbreaker:
+      instances:
+        orderServiceCircuitBreaker:
+          failureRateThreshold: 50
+          waitDurationInOpenState: 5000ms
+          permittedNumberOfCallsInHalfOpenState: 3
+
